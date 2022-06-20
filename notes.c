@@ -1,97 +1,93 @@
 #include <stdio.h>
-// contains cool strings functions (comparison, concatenation, length...)
+// useful strings functions (comparison, concatenation, length...)
 #include <string.h>
-// contains the stuff for memory allocation
+// lot of things, like memory allocation
 #include <stdlib.h>
 #include "linked-lists.h"
 
 
 
-char* shortenName (char nameSource[]); // global scope -> can be accessed via other files
+char * shortenName (char name[]); // global scope: can be accessed by other files
 
-void incrementAgeUsingPointer (unsigned short* age); // pass a pointer through the function to increment the variable pointed
+void incrementAgeUsingPointer (unsigned short * age); // pass a pointer through the function to increment the variable pointed
 
-static void pascalTriangle (); // static scope -> file only
+static void printPascalsTriangle (); // static scope: file only
 
-unsigned int factorial(unsigned int x);
+unsigned int factorial (unsigned int number);
 
-float getGradesAverage(short* grades, int arrayLength);
+float getGradesAverage (short * grades, int arrayLength);
 
 
 
 int main () {
-	printf("Hello Demo Program!\n");
+	printf("Hello demo program!\n");
 
-	// "unsigned" is for natural numbers
-	// for integers, "int" "short" "long" and "long long" types exist
+	// "unsigned": natural numbers
+	// integers: "int" "short" "long" and "long long"
 	unsigned short age = 69;
-	char* name = "David"; // C-string: pointer to a chain of chars
+	char * name = "David"; // C-string: pointer to a chain of chars
 
-	float pi = 3.141592;	// "float" and "double" for floating point decimals
+	float pi = 3.141592; // "float", "double": floating point decimals
 
-	// X (2 here) dimensional array, can make as many dimensions as possible
-	short luckSeed[][4] = { // size can be empty, except the size of the last dimension
+	// multidimensional array: can have as many dimensions as wanted
+	short coolNumbers[][4] = { // sizes can be empty, enumbercept the size of the last dimension
 		{84, 69, 24, 34},
-		{45, 75, 56, 20} // to define the values at the same time, use curly brackets
+		{45, 75, 56, 20} // use curly brackets to define the values while defining the array
 	};
+	coolNumbers[1][0] = 85;
 
 	short mathGrades[5] = {35, 84, 23, 92, 67};
-
-	// define single values (add "int" before when first definition)
-	luckSeed[1][0] = 85;
 	
-	// "%s" is the format specifier for strings, "%d" is for integers
+	// "%s": format specifier for strings; "%d": for integers; "%lu": for unsigned longs; "f": for floats; "%p" for pointers
 	printf("%s is %d years old.\n", name, age); 
 
 	if (age >= 18)
 	{
 		printf("%s is an adult.\n", name);
-	} else if (luckSeed[0][2] > pi && age >= 60) // "&&" for AND, "||" for OR
+	} else if (coolNumbers[0][2] > pi && age >= 60) // "&&": AND; "||": OR
 	{
-		printf("%s has good luck seeds and is an older person.\n", name);
+		printf("%s has really cool numbers and is an older person.\n", name);
 	}
 
-	// string length (from string.h)
+	// "strlen": get string length (string.h)
 	printf("%s is %lu characters long.\n", name, strlen(name));
 
-	// string comparison (from string.h)
+	// "strcmp": compare two strings (string.h)
 	if (strcmp(name, "David") == 0)
 	{
 		printf("Hey, David, I know you!\n");
 	}
 
-	printf("%s in 3 letters is %s.\n", name, shortenName(name));
+	printf("\"%s\" shortened is \"%s\".\n", name, shortenName(name));
 
-	printf("%s has %f of average in math.\n", name, getGradesAverage(mathGrades, 5)); // "%f" for floats
+	printf("%s has %f of average in math.\n", name, getGradesAverage(mathGrades, 5));
 
 	unsigned short counter = 0;
 	while(1) {
 		counter++;
 		if (counter > 5)
 		{
-			break; // exit parent "while"
+			break; // enumberit parent "while"
 		} else {
 			continue; // restart from the beginning of the "while" block
 		}
 	}
 
-	static unsigned short ziggysAge = 34;	// variable is static, so scope is enlarged to file, not just "main()"
+	static unsigned short ziggysAge = 34; // static variable: scope is enlarged to file, not just "main()"
 
-	// "&"" to reference: return the address of a variable ("%p" token to format pointers)
-	unsigned short* pointerToAge = &age;	
+	// "&"" to reference: return address of a variable
+	unsigned short * pointerToAge = &age;	
 	printf("Age is located at %p, %p.\n", pointerToAge, &age);
 
 	// "*" to dereference: return value pointed by pointer
 	printf("Age is %d, %d\n", age, *pointerToAge);
 
-	// changing the dereferenced variable also change the real variable
+	// change dereferenced pointer variable to change real variable
 	*pointerToAge -= 1;
-	printf("Age is now %d, by changing the pointer variable.\n", age);
+	printf("Age is now %d, by changing the dereferenced pointer variable.\n", age);
 
-	// here is a struct
-	// "struct person {};" works too (not a typedef), but you have to define them with "struct person name;"
 	typedef struct {
-		char* name;
+		char * name;
 		unsigned short age;
 	} person;
 
@@ -101,59 +97,50 @@ int main () {
 
 	printf("The person 'dbowie' is named %s and is %d.\n", dbowie.name, dbowie.age); 
 
-	// pass a pointer/referenced value to increment it (as the function requests a pointer)
-	// note that we can send pass a pointer to a struct, and it works the same way
+	// pass a pointer through a function, and dereference it inside the varible to change its value
+	// we can pass a pointer pointing to a struct, it works the same way
 	incrementAgeUsingPointer(&age);
 	printf("David had his pointer birthday! He is now %d.\n", age);
 
-	// to allocate memory dynamically, we have to create a pointer that will store the location of the chunk
-	// we will use this pointer to access this chunk, and free it once we're done
-	// let's do that with a struct
-	// we allocate enough memory for the "person" Ziggy
-	person* zstardust = (person*) malloc(sizeof(person));
-	// we write "(person*)" to tell that "malloc()" will return a person pointer
-	// because "malloc()" returns a pointer with no type by default (-> doing this is called typecasting)
+	// allocate memory dynamically: create a pointer that will store the location of the chunk of memory with "malloc" (stdlib.h)
+	// use this pointer to access this chunk, and free it once we're done
+	// allocate enough memory for the "person" zstardust
+	person * zstardust = (person *) malloc(sizeof(person));
+	// typecasting: write "(person *)" to tell "malloc()" to return a person pointer ("malloc()" returns a pointer with no type by default)
 
-	// we can then access the data of "zstardust"
 	// "a->b" is like "(*a).b"
 	zstardust->name = "Ziggy";
 	zstardust->age = ziggysAge;
 	printf("%s is %d.\n", zstardust->name, zstardust->age);
 
-	// we can then free the memory
+	// free memory allocated to this pointer
 	free(zstardust);
-	// the "zstardust" variable still exists, but points to a location we don't have access to
+	// "zstardust" variable still enumberists, but points to a location we cant't access
 
-	printf("\nPointers meet arrays! Demo (addresses):\n");
-
-	// pointers to arrays are pointers to the first element of the array
-	// also calling the name of the array returns the pointer of the array itself
-	short* pointerToMathGrades = mathGrades; // we don't use "&mathGrades" because "mathGrades" alone is already a pointer
+	printf("\nPointers & arrays (addresses):\n");
+	// name of the array only is a pointer pointing to the beginning of the array
 	for (int i = 0; i < 5; i++)
 	{
-		printf("%p // %p // %p\n", &mathGrades[i], mathGrades + i, pointerToMathGrades + i); // we don't dereference (*) because we want to print the addresses
+		printf("%d: %p // %d: %p\n", mathGrades[i], &mathGrades[i], *(mathGrades + i), mathGrades + i);
 	}
 
-	pascalTriangle();
+	printf("\n");
+	printPascalsTriangle();
+	printf("\n");
 
 	printf("5! is %d\n", factorial(5));
+	printf("\n");
 
-	// struct defined globally because I need to (see higher)
-
-	// the "pointer to the first element", aka...
-	linkedListNode* myLinkedList = (linkedListNode*) malloc(sizeof(linkedListNode));
-	if (myLinkedList == NULL)
-	{
-		return 1;
-	}
+	// always a pointer
+	linkedListNode * myLinkedList = (linkedListNode *) malloc(sizeof(linkedListNode));
 
 	// assign values of the first node
 	myLinkedList->value = 420;
 	myLinkedList->next = NULL;
-	// to add another node
-	myLinkedList->next = (linkedListNode*) malloc(sizeof(linkedListNode));
+	// add another node (manually (useless, I made a lib))
+	myLinkedList->next = (linkedListNode *) malloc(sizeof(linkedListNode));
 	myLinkedList->next->value = 42;
-	myLinkedList->next->next = NULL; // look at how "myLinkedList.next", when dereferenced, points to the next value! this can go on and on 
+	myLinkedList->next->next = NULL; // "myLinkedList->next" (dereferenced) points to the next node
 
 	printLinkedList(myLinkedList);
 
@@ -175,60 +162,58 @@ int main () {
 
 
 
-char* shortenName (char nameSource[]) {
-	static char shortenedName[3]; // has to be static: function returns a C string (pointer), but the variable "shortenedName" is freed when the function is exited, so if not static, points to nothing
-	strncat(shortenedName, nameSource, 3); // string concatenation (from string.h)
+char * shortenName (char name[]) {
+	static char shortenedName[3]; 
+	// has to be static: function returns C-string (pointer); variable "shortenedName" is freed when function is enumberited -> if scope is only function, points to nothing when function is enumberited
+	strncat(shortenedName, name, 3); // string concatenation (string.h)
 	return shortenedName;
 }
 
-void incrementAgeUsingPointer (unsigned short* age) {
+void incrementAgeUsingPointer (unsigned short * age) {
 	(*age)++;
 }
 
-void pascalTriangle () {
-	printf("\nPascal triangle:\n");
-    // pointer-allocator of array of 3 pointers (see below)
-    int** pnumbers = (int**) malloc(3 * sizeof(int));
+void printPascalsTriangle () {
+	printf("Pascal triangle:\n");
+    // pointer allocating an array of 3 pointers (see below)
+    // pointer to pointer: "**"
+    int ** niceNumbers = (int **) malloc(3 * sizeof(int));
 
-    // the 3 pointer-allocators of arrays containing the actual data
-    pnumbers[0] = (int *) malloc(sizeof(int));
-    pnumbers[1] = (int *) malloc(2 * sizeof(int));
-    pnumbers[2] = (int *) malloc(3 * sizeof(int));
+    // 3 pointers allocating arrays containing the actual data
+    niceNumbers[0] = (int *) malloc(sizeof(int));
+    niceNumbers[1] = (int *) malloc(2 * sizeof(int));
+    niceNumbers[2] = (int *) malloc(3 * sizeof(int));
 
-    pnumbers[0][0] = 1;
-    pnumbers[1][0] = 1;
-    pnumbers[1][1] = 1;
-    pnumbers[2][0] = 1;
-    pnumbers[2][1] = 2;
-    pnumbers[2][2] = 1;
+    niceNumbers[0][0] = 1;
+    niceNumbers[1][0] = 1;
+    niceNumbers[1][1] = 1;
+    niceNumbers[2][0] = 1;
+    niceNumbers[2][1] = 2;
+    niceNumbers[2][2] = 1;
 
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j <= i; j++) {
-            printf("%d", pnumbers[i][j]);
+            printf("%d", niceNumbers[i][j]);
         }
         printf("\n");
     }
 
     // free memory allocated for each row
     for (int i = 0; i < 3; i++) {
-        free(pnumbers[i]);
+        free(niceNumbers[i]);
     }
-
-    // free top-level pointer
-    free(pnumbers);
-
-    printf("\n");
+    free(niceNumbers); // free master pointer
 }
 
-unsigned int factorial(unsigned int x) {
+unsigned int factorial(unsigned int number) {
 	unsigned int result = 1;
-	if (x == 0)
+	if (number == 0)
 	{
 		return 1; // termination case
 	}
-	if (x > 1)
+	if (number > 1)
 	{
-		result = x * factorial(x-1); // recursion case
+		result = number * factorial(number-1); // recursion case
 	}
 	return result;
 }
