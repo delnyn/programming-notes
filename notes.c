@@ -3,7 +3,8 @@
 #include <string.h>
 // lot of things, like memory allocation
 #include <stdlib.h>
-#include "linked-lists.h"
+#include "linked-list.h"
+#include "binary-tree.h"
 
 
 
@@ -34,7 +35,7 @@ int main () {
 		{84, 69, 24, 34},
 		{45, 75, 56, 20} // use curly brackets to define the values while defining the array
 	};
-	coolNumbers[1][0] = 85;
+	coolNumbers[0][0] = 85;
 
 	short mathGrades[5] = {35, 84, 23, 92, 67};
 	
@@ -156,6 +157,19 @@ int main () {
 	pushToLinkedList(&myLinkedList, 3);
 	removeByIndex(myLinkedList, 3);
 	printLinkedList(myLinkedList);
+
+	binaryTreeNode * root = (binaryTreeNode *) malloc(sizeof(binaryTreeNode));
+	root->value = 0;
+	root->right = NULL;
+	root->left = NULL;
+
+	for (int i = 0; i < 2; ++i) {
+		for (int j = 0; j < 4; ++j) {
+			appendNode(root, coolNumbers[i][j]);
+		}
+	}
+	printTreeDFSInOrder(root);
+	printf("\n");
 
 	return 0;
 }
