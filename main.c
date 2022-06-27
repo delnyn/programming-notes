@@ -28,7 +28,10 @@ int main () {
 	unsigned short age = 69;
 	char * name = "David"; // C-string: pointer to a chain of chars
 
-	float pi = 3.141592; // "float", "double": floating point decimals
+	const float pi = 3.141592; // "float", "double": floating point decimals
+	// "const": constant variable, you can't  change it
+	// pointer to constant must be a constant too
+	// constant pointer to a non constant: the pointer will always point to the same location; you can still change the value pointed by it tho
 
 	// multidimensional array: can have as many dimensions as wanted
 	short coolNumbers[][4] = { // sizes can be empty, enumbercept the size of the last dimension
@@ -227,6 +230,30 @@ int main () {
 	union intPartsWithStruct realCoolInt;
 	realCoolInt.theInt = -905928872;
 	printf("The real cool int is %d (%i %i)\n", realCoolInt.theInt, realCoolInt.firstByte, realCoolInt.secondByte);
+
+	short * pointerToGrades = &mathGrades[2];
+	printf("mathGrades: %d @ %p\n", *pointerToGrades, pointerToGrades);
+	pointerToGrades++;
+	printf("mathGrades: %d @ %p\n", *pointerToGrades, pointerToGrades);
+	pointerToGrades--;
+	pointerToGrades--;
+	printf("mathGrades: %d @ %p\n", *pointerToGrades, pointerToGrades);
+	pointerToGrades += 3;
+	printf("mathGrades: %d @ %p\n", *pointerToGrades, pointerToGrades);
+	// this could go on for -, ==, < and >
+	
+	// function pointers
+	// the function returns a pointer to a bunch of chars, is a function pointer and takes a pointer to an int as a parameter
+	float (*pointerToAverage)(short *, int);
+	pointerToAverage = &getGradesAverage;
+	printf("Average (calculated with chad pointer): %f\n", (pointerToAverage)(mathGrades, 5));
+	// this can be useful in some cases, mostly passing a function to another function
+	
+	// or making an array pointing to functions (very practical, I wished to be able to do this back when I was coding in JS lol)
+	void (*functions[2])(/*args types go here*/) = {&incrementAgeUsingPointer, &printPascalsTriangle};
+	(functions[1])();
+	
+	// bitmasks: storing data as bits, purely
 
 	return 0;
 }
