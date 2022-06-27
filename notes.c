@@ -39,7 +39,7 @@ int main () {
 
 	short mathGrades[5] = {35, 84, 23, 92, 67};
 	
-	// "%s": format specifier for strings; "%d": for integers; "%lu": for unsigned longs; "f": for floats; "%p" for pointers
+	// "%s": format specifier for strings; "%d": for integers; "%lu": for unsigned longs; "f": for floats; "%p": for pointers; "%i": for chars;
 	printf("%s is %d years old.\n", name, age); 
 
 	if (age >= 18)
@@ -170,6 +170,34 @@ int main () {
 	}
 	printTreeDFSInOrder(root);
 	printf("\n");
+
+	// unions: structs but every "variable" is the same in memory
+	// an int is 4 bytes. here we can access these 4 bytes as one int, but also as four chars.
+	union intParts {
+ 		int theInt;
+ 		char theBytes[sizeof(int)];
+	};
+	union intParts niceInt;
+	niceInt.theInt = -905928872; // chosen arbitrarily
+	printf("Union: %d // [%i, %i, %i, %i]\n", niceInt.theInt, niceInt.theBytes[0], niceInt.theBytes[1], niceInt.theBytes[2], niceInt.theBytes[3]);
+
+	int chosenInt = niceInt.theInt;
+	// reference the int, add an offset, then dereference it, and don't forget to typecast so it's not interpreted as an int
+	printf("Union: %d // [%i, %i, %i, %i]\n", niceInt.theInt, (char)chosenInt, *((char *)&chosenInt + 1), *((char *)&chosenInt + 2), *((char *)&chosenInt + 3));
+
+	// unions inside of structs
+	typedef struct {
+		char * name;
+		union {
+			int dataInt;
+			short dataShort;
+		} data;
+	} personWithUnion;
+
+	personWithUnion asane;
+	asane.name = "Alladin Sane";
+	asane.data.dataInt = 6999999;
+	printf("%s's data: %d, %d.\n", asane.name, asane.data.dataInt, asane.data.dataShort);
 
 	return 0;
 }
