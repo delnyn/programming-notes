@@ -199,6 +199,35 @@ int main () {
 	asane.data.dataInt = 6999999;
 	printf("%s's data: %d, %d.\n", asane.name, asane.data.dataInt, asane.data.dataShort);
 
+	// here we can define the union without a name so we can access the members of the union directly 
+	typedef struct {
+		char * name;
+		union {
+			int dataInt;
+			short dataShort;
+		};
+	} personWithUntitledUnion;
+
+	personWithUntitledUnion twduke;
+	twduke.name = "Thin White duke";
+	// like this
+	twduke.dataInt = 77999999;
+	printf("%s's data: %d, %d.\n", twduke.name, twduke.dataInt, twduke.dataShort);
+
+	// also works with unnamed structs inside of unions
+	union intPartsWithStruct {
+ 		int theInt;
+		struct {
+			char firstByte;
+			char secondByte;
+		};
+	};
+
+	// don't  forget to tell that this is an union
+	union intPartsWithStruct realCoolInt;
+	realCoolInt.theInt = -905928872;
+	printf("The real cool int is %d (%i %i)\n", realCoolInt.theInt, realCoolInt.firstByte, realCoolInt.secondByte);
+
 	return 0;
 }
 
