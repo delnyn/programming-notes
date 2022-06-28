@@ -253,7 +253,15 @@ int main () {
 	void (*functions[2])(/*args types go here*/) = {&incrementAgeUsingPointer, &printPascalsTriangle};
 	(functions[1])();
 	
-	// bitmasks: storing data as bits, purely
+	// bitmasks: editing data as bits, purely
+	char bitmaskVariable = 0;
+	// set bit 3 of bitmask to 1
+	// (index starting at 0)
+	// bitmask is 00003000 -> 8
+	bitmaskVariable |= 1 << 3; // set
+	bitmaskVariable &= ~(1 << 4); // clear
+	bitmaskVariable ^= 1 << 6; // flip
+	printf("The third bit is %d\n", bitmaskVariable & (1 << 3)); // check the value of a single bit: returns 1/2/4/8/16... or 0
 
 	return 0;
 }
