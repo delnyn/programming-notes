@@ -6,6 +6,14 @@
 #include "linked-list.h"
 #include "binary-tree.h"
 
+// macros in C are basically just replacing parts in the code
+#define MACROVAL 420 // object macro
+#define SUBSTRACT(a, b) (a - b) // function like macro
+// showing off default macros at the beginning of main
+// macros can be multiple lines; be careful! it replaces every instance
+// in function like macros, "#variable" turns "variable" into a string (only in the macro huh) -> stringize
+// macros often useful for: magic numbers, string stuff, loop stuff ig, quick debugging stuff
+
 
 
 char * shortenName (char name[]); // global scope: can be accessed by other files
@@ -22,6 +30,7 @@ float getGradesAverage (short * grades, int arrayLength);
 
 int main () {
 	printf("Hello demo program!\n");
+	printf("Today is %s, it's %s, you run %s, and we're at line %d. Did we compile? %d\n", __DATE__, __TIME__, __FILE__, __LINE__, __STDC__);
 
 	// "unsigned": natural numbers
 	// integers: "int" "short" "long" and "long long"
